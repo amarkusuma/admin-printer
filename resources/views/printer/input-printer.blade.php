@@ -46,9 +46,47 @@
                 
                 <!-- Row -->
                 <div class="row">
-                    
+                   
+
                     <!-- Column -->
                     <div class="col-lg-8 col-xlg-9 col-md-8">
+                        @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-block">
+                          <button type="button" class="close" data-dismiss="alert">×</button> 
+                            <strong>{{ $message }}</strong>
+                        </div>
+                       @endif
+                        @if ($message = Session::get('error'))
+                            <div class="alert alert-danger alert-block">
+                                <button type="button" class="close" data-dismiss="alert">×</button> 
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @endif
+                        @if($errors->has('name_printer'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button> 
+                            <strong>{{ $errors->first('name_printer') }}</strong>
+                        </div>
+                        @endif
+                        @if($errors->has('brand_printer'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button> 
+                            <strong>{{ $errors->first('brand_printer') }}</strong>
+                        </div>
+                        @endif
+                        @if($errors->has('price_printer'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button> 
+                            <strong>{{ $errors->first('price_printer') }}</strong>
+                        </div>
+                        @endif
+                        @if($errors->has('image_printer'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button> 
+                            <strong>{{ $errors->first('image_printer') }}</strong>
+                        </div>
+                        @endif
+                      
                         <div class="card-block">
                         <h4 class="card-title" style="color: #111; font-family: 'Open Sans Condensed', sans-serif; font-size: 24px; font-weight: 700;  margin: 0 0 0; padding: 20px 30px; text-align: center; text-transform: uppercase;">Tambahkan Data Printer</h4>
                        </div>

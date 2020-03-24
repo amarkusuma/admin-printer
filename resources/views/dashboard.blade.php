@@ -91,7 +91,8 @@
                         <div class="user-profile nav-item">
                             <li class="nav-item dropdown">
                                 <a data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle text-muted waves-effect waves-dark dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="assets/images/users/1.jpg" alt="user" class="profile-pic m-r-5" /> {{ Auth::user()->name }}
+                                    <img src="assets/images/users/1.jpg" alt="user" class="profile-pic m-r-5" /> 
+                                    {{ Auth::user()->name }}
                                     <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
                                 </a>
                                 <div class="dropdown-menu">

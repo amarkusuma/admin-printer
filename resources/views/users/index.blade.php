@@ -23,28 +23,19 @@
     $('#laravel_datatable').DataTable({
            processing: true,
            serverSide: true,
-           "sScrollX": "100%",
-           "sScrollXInner": "103%",
+         //   "sScrollX": "100%",
+         //   "sScrollXInner": "103%",
          //   "sScrollY": "100%",
          //   "sScrollYInner": "110%",
-           ajax: "{{ route('dataTable.printer') }}",
+           ajax: "{{ route('dataTable.user') }}",
          
            columns: [
                     { data: 'DT_RowIndex', name:'id'},
-                    { data: 'image', name: 'image' },
                     { data: 'name', name: 'name' },
-                    { data: 'brand', name: 'brand' },
-                    { data: 'status', name: 'stock' },
-                    { data: 'stock', name: 'stock' },
-                    { data: 'price',  render: $.fn.dataTable.render.number( '.',',', 0, 'Rp')},
+                    { data: 'email', name: 'email' },
+                    { data: 'role', name: 'role' },
                     { data: 'action',name: 'action', orderable: false ,searchable: false},
                  ],
-                 "columnDefs": [
-                            { "width": "5%", "targets": 0 },
-                            { "width": "12%", "targets": 3 },
-                            { "width": "15%", "targets": 4 },
-                            { "width": "5%", "targets": 5, "className": "text-center", }
-                         ],
                  
                //   "dom": 'Bfrtip',
                //   "buttons": [ 'copy', 'csv', 'excel', 'pdf', 'print' ]  
@@ -52,61 +43,61 @@
         });
 
 
-         $('body').on('click', '.delete', function () {
-         var product_id = $(this).attr("data-id");
-         var alert = confirm("Apakah Kamu yakin Ingin Menghapus ini  !");
-         if (alert) {
-             $(this).closest('tr').remove();
+//          $('body').on('click', '.delete', function () {
+//          var product_id = $(this).attr("data-id");
+//          var alert = confirm("Apakah Kamu yakin Ingin Menghapus ini  !");
+//          if (alert) {
+//              $(this).closest('tr').remove();
            
-            } else{
-            return false;
-         }
-         $.ajaxSetup({
-               headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-               }
-            });
-         $.ajax({
-               type: "DELETE",
-               url: "printer.delete/"+product_id,
-               data: "id="+product_id,
+//             } else{
+//             return false;
+//          }
+//          $.ajaxSetup({
+//                headers: {
+//                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//                }
+//             });
+//          $.ajax({
+//                type: "DELETE",
+//                url: "printer.delete/"+product_id,
+//                data: "id="+product_id,
                
-               success: function (data) {
-                  console.log('Succes:', data);
+//                success: function (data) {
+//                   console.log('Succes:', data);
       
-               },
-               error: function (data) {
-                  console.log('Error:', data);
-               }
-         });
-   });
+//                },
+//                error: function (data) {
+//                   console.log('Error:', data);
+//                }
+//          });
+//    });
 
-   $('body').on('click', '.show', function () {
-         var product_id = $(this).attr("data-id");
-         // confirm("Are You sure want to delete !");
-         // $(this).closest('tr').remove();
-         $.ajaxSetup({
-               headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-               }
-            });
-         $.ajax({
-               type: "POST",
-               url: "printer.show/"+ product_id,
-               data: "id="+product_id,
+//    $('body').on('click', '.show', function () {
+//          var product_id = $(this).attr("data-id");
+//          // confirm("Are You sure want to delete !");
+//          // $(this).closest('tr').remove();
+//          $.ajaxSetup({
+//                headers: {
+//                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//                }
+//             });
+//          $.ajax({
+//                type: "POST",
+//                url: "printer.show/"+ product_id,
+//                data: "id="+product_id,
                
-               success: function (data) {
-                  // console.log('Succes:', data);
-                  $('.container').html(data);	
-                  // window.location = "printer.show/"+product_id;
-               },
-               error: function (data) {
-                  console.log('Error:', data);
-               }
-         });
-   });
+//                success: function (data) {
+//                   // console.log('Succes:', data);
+//                   $('.container').html(data);	
+//                   // window.location = "printer.show/"+product_id;
+//                },
+//                error: function (data) {
+//                   console.log('Error:', data);
+//                }
+//          });
+//    });
    $('body').on('click', '.edit', function () {
-         var product_id = $(this).attr("data-id");
+         var user_id = $(this).attr("data-id");
          // confirm("Are You sure want to delete !");
          // $(this).closest('tr').remove();
          $.ajaxSetup({
@@ -116,8 +107,8 @@
             });
          $.ajax({
                type: "POST",
-               url: "printer.edit/"+ product_id,
-               data: "id="+product_id,
+               url: "user.edit/"+ user_id,
+               data: "id="+user_id,
                
                success: function (data) {
                   // console.log('Succes:', data);
@@ -171,7 +162,7 @@
                <div class="row">
                   <a href="{{ route('input-printer') }}" class="btn btn-info ml-auto" id="createPrinter">
                      <i class="fa fa-plus"></i>
-                     Add Printer</a>
+                     Add User</a>
                </div>
            </div>
            
@@ -179,12 +170,9 @@
                <thead>
                   <tr >
                      <th>Id</th>
-                     <th>Gambar</th>
                      <th>Nama</th>
-                     <th>Merk</th>
-                     <th>Status</th>
-                     <th>Stock</th>
-                     <th>Harga</th>
+                     <th>Email</th>
+                     <th>Role</th>
                      <th>Action</th>
                      
                   </tr>

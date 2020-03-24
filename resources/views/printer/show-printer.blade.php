@@ -41,17 +41,20 @@
                                 <center class="m-t-8"> <img src="assets/images/MTprint/<?php echo $printer->image ?>"  width="260" height="200" />
                                     <h4 class="card-title m-t-10"><?php echo $printer->brand ?></h4>
                                     <h6 class="card-subtitle"><?php echo $printer->name ?></h6>
-                                    {{-- <div class="row text-center justify-content-md-center">
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i> <font class="font-medium">254</font></a></div>
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <font class="font-medium">54</font></a></div>
-                                    </div> --}}
+                                    <div class="row text-center justify-content-md-center">
+                                        <div class="col-4">
+                                            <?php $value = ($printer->stock <= 0 ) ?  '<span class="badge badge-warning">Kosong ' :  '<span class="badge badge-info">Ready' ?>
+                                            <?php echo $value ?>
+                                        </div>
+                                       
+                                    </div>
                                 </center>
                             </div>
                         </div>
                     </div>
                     <!-- Column -->
                     <!-- Column -->
-                    <div class="col-lg-7 col-xlg-9 col-md-8">
+                    <div class="col-lg-6 col-xlg-9 col-md-8">
                       
                         <div class="card">
                             <div class="card-block">
@@ -83,13 +86,11 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="col-md-12">Upload Image</div>
-                                       
-                                            <div class="col-md-12">
-                                                <input class="input-file" type="file" name="image-printer" id="file">
-                                               
-                                            </div>
+                                        <div class="col-md-12">  
+                                        </div>
                                     </div>
+
+                                
                                     {{-- <div class="form-group">
                                         <label class="col-md-12">Message</label>
                                         <div class="col-md-12">
@@ -111,9 +112,10 @@
                                     </div> --}}
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <button class="btn btn-success">Save
-                                                <i class="fa fa-save"></i>
-                                            </button>
+                                            <a href="{{ route('printer') }}" class="btn btn-success">
+                                                <i class="fa fa-arrow-left"></i>
+                                                back 
+                                            </a>
                                             
                                         </div>
                                     </div>

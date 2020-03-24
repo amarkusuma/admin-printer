@@ -21,41 +21,6 @@
         
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-        {{-- <script>
-   
-            $(document).ready( function () {          
-
-            $('body').on('click', '.update', function () {
-                  var product_id = $(this).attr("data-id");
-                  // confirm("Are You sure want to delete !");
-                  // $(this).closest('tr').remove();
-                  $.ajaxSetup({
-                        headers: {
-                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                     });
-                  $.ajax({
-                        type: "POST",
-                        url: "printer.update",
-                        data: {id:product_id},
-                        // dataType:'json',
-                        
-                        success: function (data) {
-                           // console.log('Succes:', data);
-                           $('.container').html(data);	
-                           // window.location = "printer.show/"+product_id;
-                        },
-                        error: function (data) {
-                           console.log('Error:', data);
-                        }
-                  });
-            });
-            
-            
-         });
-         
-           </script> --}}
-
     </head>
 
 <body class="fix-header card-no-border">
@@ -83,44 +48,44 @@
                            </div>
                         <div class="card">
                             <div class="card-block">
-                            <form class="form-horizontal form-material"  method="POST" action="{{route('printer.update',$printer->id)}}"   enctype="multipart/form-data">
+                            <form class="form-horizontal form-material"  method="POST" action="{{route('user-update',$user->id)}}"   enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <label class="col-md-12">Nama</label>
                                         <div class="col-md-12">
-                                            <input type="text"  value="<?php echo $printer->name ?>" class="form-control form-control-line" name="name_printer">
+                                            <input type="text"  value="<?php echo $user->name ?>" class="form-control form-control-line" name="name_user">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="example-email" class="col-md-12">Merk</label>
+                                        <label for="example-email" class="col-md-12">Email</label>
                                         <div class="col-md-12">
-                                            <input type="text"  value="<?php echo $printer->brand ?>" class="form-control form-control-line" name="brand_printer" id="example-email">
+                                            <input type="text"  value="<?php echo $user->email ?>" class="form-control form-control-line" name="brand_user" id="example-email">
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label class="col-md-12">Harga</label>
                                         <div class="col-md-12">
-                                            <input type="text" value="<?php echo $printer->price ?>" name="price_printer" class="form-control form-control-line">
+                                            <input type="text" value="<?php echo $user->price ?>" name="price_user" class="form-control form-control-line">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-12">Stock</label>
                                         <div class="col-md-12">
-                                            <input type="number" value="<?php echo $printer->stock ?>" placeholder="" name="stock_printer" class="form-control form-control-line">
+                                            <input type="number" value="<?php echo $user->stock ?>" placeholder="" name="stock_user" class="form-control form-control-line">
                                         </div>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <div class="col-md-12">
-                                            <img src="assets/images/MTprint/<?php echo $printer->image ?>" class="img-fluid" alt="Responsive image" width="100px" height="100px">
+                                            <img src="assets/images/MTprint/<?php echo $user->image ?>" class="img-fluid" alt="Responsive image" width="100px" height="100px">
                                         </div>
                                         <div class="col-md-12">Upload Image</div>
                                        
                                             <div class="col-md-12">
-                                                <input class="input-file" type="file" name="image_printer" id="file">
+                                                <input class="input-file" type="file" name="image_user" id="file">
                                                
                                             </div>
-                                    </div>
+                                    </div> --}}
                                     {{-- <div class="form-group">
                                         <label class="col-md-12">Message</label>
                                         <div class="col-md-12">
@@ -142,7 +107,7 @@
                                     </div> --}}
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <button  name="update" class="update btn btn-success " data-id="<?php echo $printer->id ?>">Save
+                                            <button  name="update" class="update btn btn-success " data-id="<?php echo $user->id ?>">Save
                                                 <i class="fa fa-save"></i>
                                             </button>
                                             

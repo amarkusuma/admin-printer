@@ -163,6 +163,9 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         Yajra\DataTables\DataTablesServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+
 
         /*
          * Package Service Providers...
@@ -176,6 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
 
     ],
 
@@ -229,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         ' DataTables ' => Yajra\DataTables\Facades\DataTables::class,
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 
     ],
 

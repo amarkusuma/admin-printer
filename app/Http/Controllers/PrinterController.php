@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Datatables;
 use Carbon\Carbon;
 use Validator, Redirect, Response, File;
+use Image;
+use App\Http\Requests\PrinterRequest;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PrinterController extends Controller
 {
@@ -37,13 +40,15 @@ class PrinterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PrinterRequest $request)
     {
-        $this->validate($request, [
-            'name_printer' => 'required',
-            'brand_printer' => 'required',
-            'price_printer' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'name_printer' => 'required',
+        //     'brand_printer' => 'required',
+        //     'price_printer' => 'required',
+        //     'image_printer' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
+
 
         $printer = new Printers();
         $printer->name = $request->name_printer;
@@ -51,10 +56,22 @@ class PrinterController extends Controller
         $printer->brand = $request->brand_printer;
         $printer->stock = $request->stock_printer;
         $printer->price = $request->price_printer;
-        $gambar = $request->file('image_printer');
-        $namaFile = $gambar->getClientOriginalName();
-        $printer->file('image_printer')->move('assets/images/MTprint/', $namaFile);
+
+
+        $image = $request->file('image_printer');
+        $name = $image->getClientOriginalName();
+        $size = $image->getClientSize();
+        $destinationPath = public_path('/assets/images/MTprint/');
+        $image->move($destinationPath, $name);
+        $printer->image = $name;
+
+        //dd($printer);
         $printer->save();
+
+
+
+        return redirect()->route('input-printer')
+            ->with('success', 'data telah tersimpan ');
     }
 
     /**
@@ -97,9 +114,52 @@ class PrinterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update_printer(Request $request, $id)
     {
-        //
+        $printer = Printers::find($id);
+        $printer->name = $request->name_printer;
+        // $printer->image = $request->image_printer;
+        $printer->brand = $request->brand_printer;
+        $printer->stock = $request->stock_printer;
+        $printer->price = $request->price_printer;
+        // $printer->image = $name;
+
+        if ($request->file('image_printer')) {
+            $image = $request->file('image_printer');
+            $name = $image->getClientOriginalName();
+            $size = $image->getClientSize();
+            $destinationPath = public_path('/assets/images/MTprint/');
+            $image->move($destinationPath, $name);
+
+            $printer->update([
+                'name' => $request->name_printer,
+                'brand' => $request->brand_printer,
+                'stock' => $request->stock_printer,
+                'price' => $request->price_printer,
+                'image' => $name,
+            ]);
+        } else {
+            $printer->update([
+                'name' => $request->name_printer,
+                'brand' => $request->brand_printer,
+                'stock' => $request->stock_printer,
+                'price' => $request->price_printer,
+
+            ]);
+        }
+
+        // $printer->update();
+        //REDIRECT KE HALAMAN LIST KATEGORI
+        // DB::table('printers')->where('id', $id)->update([
+        //     'name' => $request->name_printer,
+        //     'brand' => $request->brand_printer,
+        //     'stock' => $request->stock_printer,
+        //     'price' => $request->price_printer,
+
+        // ]);
+        Alert::success('Success ', 'Data Printer Berhasil di ubah');
+        return redirect(route('printer'));
+        // return view('printer.index');
     }
 
     /**
@@ -110,6 +170,9 @@ class PrinterController extends Controller
      */
     public function destroy($id)
     {
+        $gambar = Printers::where('id', $id)->first();
+        File::delete('assets/images/MTprint/' . $gambar->image);
+
         Printers::find($id)->delete();
 
         return response()->json(['success' => 'Printers deleted successfully.']);
@@ -125,7 +188,7 @@ class PrinterController extends Controller
                     return 'No Image';
                 } else {
                     $url = asset("assets/images/MTprint/$image->image");
-                    return '<img src=' . $url . ' border="0" height="40" width="50" class="img-rounded" align="center" />';
+                    return '<img src=' . $url . ' border="0" height="30" width="45" class="img-rounded" align="center" />';
                 }
             })
             ->addColumn('action', function ($data) {
@@ -136,7 +199,14 @@ class PrinterController extends Controller
                 $button .= '<button type="button" name="delete" data-id="' . $data->id . '" class="delete btn btn-danger btn-sm DeletePrinter"><i class="fa fa-trash-o"></i></button>';
                 return $button;
             })
-            ->rawColumns(['image', 'action', 'noid'])
+            ->addColumn('status', function ($stock) {
+                if ($stock->stock <= 0) {
+                    return '<center><span class="badge badge-warning">Kosong  <i class="fa fa-battery-empty"></i> </center>';
+                } else {
+                    return '<center><span class="badge badge-info">Ready  <i class="fa fa-car"></i> </center>';
+                }
+            })
+            ->rawColumns(['image', 'action', 'status'])
             ->addIndexColumn()
             ->toJson();
     }
