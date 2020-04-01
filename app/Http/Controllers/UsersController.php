@@ -63,13 +63,13 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function user_role($id)
     {
         $user = User::find($id);
-        // $roles = Role::pluck('name', 'name')->all();
-        // $userRole = $user->roles->pluck('name', 'name')->all();
+        $roles = Role::pluck('name', 'name')->all();
+        $userRole = $user->roles->pluck('name', 'name')->all();
 
-        return view('users.edit-user', compact('user'))->render();
+        return view('users.edit-user', compact('user', 'roles', 'userRole'))->render();
     }
 
     /**
@@ -79,9 +79,19 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function user_role_update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'roles' => 'required'
+        ]);
+
+        $user = User::find($id);
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+        $user->assignRole($request->input('roles'));
+
+
+        Alert::success('Success ', 'User Role Berhasil di Update');
+        return redirect()->route('user');
     }
 
     /**
@@ -111,7 +121,7 @@ class UsersController extends Controller
             ->addColumn('action', function ($data) {
                 $button = '<button type="button" name="show" data-id="' . $data->id . '" class="show btn btn-success btn-sm Showuser"> <i class="fa fa-eye"></i></button>';
                 $button .= '&nbsp;&nbsp;';
-                $button .= '<button type="button" name="edit" data-id="' . $data->id . '" class="edit btn btn-primary btn-sm Edituser"><i class="fa fa-edit"></i></button>';
+                $button .= '<button type="button" name="edit" data-id="' . $data->id . '" class="edit btn btn-primary btn-sm Edituser"><i class="fa fa-users"></i></button>';
                 $button .= '&nbsp;&nbsp;';
                 $button .= '<button type="button" name="delete" data-id="' . $data->id . '" class="delete btn btn-danger btn-sm Deleteuser"><i class="fa fa-trash-o"></i></button>';
                 return $button;

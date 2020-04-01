@@ -11,6 +11,7 @@ use Validator, Redirect, Response, File;
 use Image;
 use App\Http\Requests\PrinterRequest;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
 
 class PrinterController extends Controller
 {
@@ -19,6 +20,15 @@ class PrinterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    function __construct()
+    {
+        $this->middleware('permission:Read', ['only' => ['index', 'store']]);
+        $this->middleware('permission:Create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:Update', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:Delete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         return view('printer.index');
@@ -192,11 +202,17 @@ class PrinterController extends Controller
                 }
             })
             ->addColumn('action', function ($data) {
-                $button = '<button type="button" name="show" data-id="' . $data->id . '" class="show btn btn-success btn-sm ShowPrinter"> <i class="fa fa-eye"></i></button>';
-                $button .= '&nbsp;&nbsp;';
-                $button .= '<button type="button" name="edit" data-id="' . $data->id . '" class="edit btn btn-primary btn-sm EditPrinter"><i class="fa fa-edit"></i></button>';
-                $button .= '&nbsp;&nbsp;';
-                $button .= '<button type="button" name="delete" data-id="' . $data->id . '" class="delete btn btn-danger btn-sm DeletePrinter"><i class="fa fa-trash-o"></i></button>';
+                if (Auth::user()->can('Read')) {
+                    $button = '<button type="button" name="show" data-id="' . $data->id . '" class="show btn btn-success btn-sm ShowPrinter"> <i class="fa fa-eye"></i></button>';
+                    $button .= '&nbsp;&nbsp;';
+                }
+                if (Auth::user()->can('Update')) {
+                    $button .= '<button type="button" name="edit" data-id="' . $data->id . '" class="edit btn btn-primary btn-sm EditPrinter"><i class="fa fa-edit"></i></button>';
+                    $button .= '&nbsp;&nbsp;';
+                }
+                if (Auth::user()->can('Delete')) {
+                    $button .= '<button type="button" name="delete" data-id="' . $data->id . '" class="delete btn btn-danger btn-sm DeletePrinter"><i class="fa fa-trash-o"></i></button>';
+                }
                 return $button;
             })
             ->addColumn('status', function ($stock) {

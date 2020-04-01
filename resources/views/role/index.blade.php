@@ -1,116 +1,168 @@
+
+​
 @extends('dashboard')
-​
-@section('title')
-    <title>Manajemen Role</title>
-@endsection
-​
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta name="csrf-token" content="{{ csrf_token() }}">
+{{-- <link  href="https://cdn.bootcss.com/datatables/1.10.19/css/dataTables.bootstrap4.css" rel="stylesheet"> --}}
+
+<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/table.css" rel="stylesheet">
+<!-- You can change the theme colors from here -->
+<link href="css/colors/blue.css" id="theme" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+</head>
+
 @section('content')
-    <div class="content-wrapper">
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Manajemen Role</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Role</li>
-                        </ol>
-                    </div>
-                </div>
+      <body>
+        
+         <div class="container">
+          <div class="container-fluid">
+            <div class="row">
+               <a href="{{ route('create-role') }}" class="btn btn-info ml-auto" id="createPrinter">
+                  <i class="fa fa-plus-circle"></i>
+                  </a>
             </div>
-        </div>
-​
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">
-                        @card
-                            @slot('title')
-                            Tambah
-                            @endslot
-                            
-                            @if (session('error'))
-                                @alert(['type' => 'danger'])
-                                    {!! session('error') !!}
-                                @endalert
-                            @endif
-​
-                            <form role="form" action="{{ route('role.store') }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="name">Role</label>
-                                    <input type="text" 
-                                    name="name"
-                                    class="form-control {{ $errors->has('name') ? 'is-invalid':'' }}" id="name" required>
-                                </div>
-                            @slot('footer')
-                                <div class="card-footer">
-                                    <button class="btn btn-primary">Simpan</button>
-                                </div>
-                            </form>
-                            @endslot
-                        @endcard
-                    </div>
-                    <div class="col-md-8">
-                        @card
-                            @slot('title')
-                            List Role
-                            @endslot
-                            
-                            @if (session('success'))
-                                @alert(['type' => 'success'])
-                                    {!! session('success') !!}
-                                @endalert
-                            @endif
-                            
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <td>#</td>
-                                            <td>Role</td>
-                                            <td>Guard</td>
-                                            <td>Created At</td>
-                                            <td>Aksi</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php $no = 1; @endphp
-                                        @forelse ($role as $row)
-                                        <tr>
-                                            <td>{{ $no++ }}</td>
-                                            <td>{{ $row->name }}</td>
-                                            <td>{{ $row->guard_name }}</td>
-                                            <td>{{ $row->created_at }}</td>
-                                            <td>
-                                                <form action="{{ route('role.destroy', $row->id) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center">Tidak ada data</td>
-                                        </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-​
-                            <div class="float-right">
-                                {!! $role->links() !!}
-                            </div>
-                            @slot('footer')
-​
-                            @endslot
-                        @endcard
-                    </div>
-                </div>
+          </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr class="thead">
+                    <th ><center><h5>#</h5></center></th>
+                    <th><center><h5>Nama</h5></center></th>
+                    <th><center><h5>Guard</h5></center></th>
+                    <th><center><h5>Updated</h5></center></th>
+                    <th><center><h5>Action</h5></center></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($role as $value )
+                  <tr>
+                    <td scope="row">{{ ++$i }}</td>
+                    <td>{{ $value->name }}</td>
+                    <td>{{ $value->guard_name }}</td>
+                    <td>{{ $value->updated_at->formatLocalized('%A ,%d %B %Y') }}</td>
+                    <td>
+                    <button type="button" name="show" data-id="{{$value->id}}" class="show btn btn-success btn-sm ShowRole"> <i class="fa fa-eye"></i></button>
+                    &nbsp;&nbsp;
+                    @can('Update')
+                    <button type="button" name="show" data-id="{{$value->id}}" class="edit btn btn-info btn-sm EditRole"> <i class="fa fa-edit"></i></button>
+                    &nbsp;&nbsp;
+                    @endcan
+                    @can('Delete')
+                    <button type="button" name="show" data-id="{{$value->id}}" class="delete btn btn-danger btn-sm DeleteRole"> <i class="fa fa-trash-o"></i></button>
+                    &nbsp;&nbsp;
+                    @endcan
+                    </td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
             </div>
-        </section>
-    </div>
-@endsection
+         </div>
+
+
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+         @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
+
+         @include('sweetalert::alert')
+
+
+
+<script>
+
+  //    $(document).ready(function(){
+  //     $('body').on('click', '.delete', function () {
+  //        var product_id = $(this).attr("data-id");
+  //        var alert = confirm("Apakah Kamu yakin Ingin Menghapus ini  !");
+  //        if (alert) {
+  //            $(this).closest('tr').remove();
+           
+  //           } else{
+  //           return false;
+  //        }
+  //        $.ajaxSetup({
+  //              headers: {
+  //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  //              }
+  //           });
+  //        $.ajax({
+  //              type: "DELETE",
+  //              url: "printer.delete/"+product_id,
+  //              data: "id="+product_id,
+               
+  //              success: function (data) {
+  //                 console.log('Succes:', data);
+      
+  //              },
+  //              error: function (data) {
+  //                 console.log('Error:', data);
+  //              }
+  //        });
+  //  });
+
+  //  $('body').on('click', '.show', function () {
+  //        var product_id = $(this).attr("data-id");
+  //        // confirm("Are You sure want to delete !");
+  //        // $(this).closest('tr').remove();
+  //        $.ajaxSetup({
+  //              headers: {
+  //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  //              }
+  //           });
+  //        $.ajax({
+  //              type: "POST",
+  //              url: "printer.show/"+ product_id,
+  //              data: "id="+product_id,
+               
+  //              success: function (data) {
+  //                 // console.log('Succes:', data);
+  //                 $('.container').html(data);	
+  //                 // window.location = "printer.show/"+product_id;
+  //              },
+  //              error: function (data) {
+  //                 console.log('Error:', data);
+  //              }
+  //        });
+  //  });
+   $('body').on('click', '.edit', function () {
+         var role_id = $(this).attr("data-id");
+         // confirm("Are You sure want to delete !");
+         // $(this).closest('tr').remove();
+         $.ajaxSetup({
+               headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               }
+            });
+         $.ajax({
+               type: "GET",
+               url: "role.edit/"+ role_id,
+               data: "id="+role_id,
+               
+               success: function (data) {
+                  // console.log('Succes:', data);
+                  $('.container').html(data);	
+                  // window.location = "printer.show/"+role_id;
+               },
+               error: function (data) {
+                  console.log('Error:', data);
+               }
+         });
+   });
+    
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+@include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
+
+@include('sweetalert::alert')
+   </body>
+   @endsection
+</html>

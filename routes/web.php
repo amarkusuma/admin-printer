@@ -37,9 +37,25 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('user', 'UsersController@index')->name('user');
-    Route::post('user.edit/{id}', 'UsersController@edit')->name('user-edit');
-    Route::post('user.update/{id}', 'UsersController@update')->name('user-update');
+    Route::post('user.role/{id}', 'UsersController@user_role')->name('user-role');
+    Route::post('user.role-update/{id}', 'UsersController@user_role_update')->name('user-role-update');
 });
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('role.create', 'RoleController@create')->name('create-role');
+    Route::post('role.store', 'RoleController@store')->name('role-create');
+    Route::get('roles', 'RoleController@index')->name('role-user');
+    Route::get('role.edit/{id}', 'RoleController@edit')->name('role-edit');
+    Route::post('role.update/{id}', 'RoleController@update')->name('role-update');
+    // Route::post('user.role-update/{id}', 'UsersController@user_role_update')->name('user-role-update');
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/chat', 'ChatController@index');
+    Route::get('messages', 'ChatController@getMessages');
+    Route::post('messages', 'ChatController@broadcastMessage');
+});
+
 
 
 // Route::resource('/role', 'RoleController')->except([

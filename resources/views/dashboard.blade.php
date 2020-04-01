@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
     <title>MT Print</title>
@@ -19,9 +21,11 @@
     <link href="css/colors/blue.css" id="theme" rel="stylesheet">
    
 
+
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
+    <div id="app">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -56,7 +60,7 @@
                         <span>
                             <!-- dark Logo text -->
                             {{-- <img src="assets/images/logo-text.png" alt="homepage" class="dark-logo" /> --}}
-                           <b> MT Print</b>
+                           <b style="color: #111; font-family: 'Open Sans Condensed', sans-serif; font-size: 20px; font-weight: 700; text-transform: uppercase;"> MT Print</b>
                         </span>
                     </a>
                 </div>
@@ -129,15 +133,20 @@
                         <li>
                         <a href="{{ route('printer') }}" class="waves-effect"><i class="fa fa-print m-r-10" aria-hidden="true"></i>Printer</a>
                         </li>
+
                         <li>
                             <a href="map-google.html" class="waves-effect"><i class="fa fa-columns m-r-10" aria-hidden="true"></i>Laporan</a>
                         </li>
+
+                        <li>
+                        <a href="{{route('role-user')}}" class="waves-effect"><i class="fa fa-expeditedssl m-r-10" aria-hidden="true"></i>Role User</a>
+                        </li>
                         
                         <li>
-                            <a href="pages-profile.html" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Profile</a>
+                            <a href="{{route('user')}}" class="waves-effect"><i class="fa fa-users m-r-10" aria-hidden="true"></i>Users</a>
                         </li>
                         <li>
-                            <a href="pages-error-404.html" class="waves-effect"><i class="fa fa-info-circle m-r-10" aria-hidden="true"></i>Error 404</a>
+                            <a href="pages-profile.html" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Profile</a>
                         </li>
                     </ul>
                    
@@ -164,7 +173,7 @@
                     <div class="col-md-6 col-8 align-self-center">
                         {{-- <h3 class="text-themecolor m-b-0 m-t-0">{{Route::currentRouteName()}}</h3> --}}
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item "><a href="javascript:void(0)"><b>Home</b></a></li>
+                            <li class="breadcrumb-item "><a href="javascript:void(0)"><b style="color: #0e739b; font-family: 'Open Sans Condensed', sans-serif; font-size: 16px; font-weight: 700;">Home</b></a></li>
                             <li class="breadcrumb-item active">{{Route::currentRouteName()}}</li>
                         </ol>
                     </div>
@@ -232,7 +241,7 @@
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-   
+    </div>
 </body>
 
 </html>

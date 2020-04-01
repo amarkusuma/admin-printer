@@ -11,6 +11,9 @@
 <!-- You can change the theme colors from here -->
 <link href="css/colors/blue.css" id="theme" rel="stylesheet">
 
+<!-- You can change the theme colors from here -->
+<link href="css/colors/blue.css" id="theme" rel="stylesheet">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
@@ -107,7 +110,7 @@
             });
          $.ajax({
                type: "POST",
-               url: "user.edit/"+ user_id,
+               url: "user.role/"+ user_id,
                data: "id="+user_id,
                
                success: function (data) {
@@ -158,13 +161,13 @@
         
          <div class="container">
            
-           <div class="container-fluid">
+           {{-- <div class="container-fluid">
                <div class="row">
                   <a href="{{ route('input-printer') }}" class="btn btn-info ml-auto" id="createPrinter">
                      <i class="fa fa-plus"></i>
                      Add User</a>
                </div>
-           </div>
+           </div> --}}
            
             <table class="table table-bordered" id="laravel_datatable">
                <thead>
@@ -172,7 +175,7 @@
                      <th>Id</th>
                      <th>Nama</th>
                      <th>Email</th>
-                     <th>Role</th>
+                     <th><center>Role</center></th>
                      <th>Action</th>
                      
                   </tr>
