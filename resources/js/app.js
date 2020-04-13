@@ -11,16 +11,35 @@ import Vue from 'vue';
 //IMPORT KEDUA COMPONENT TERSEBUT
 import Messages from './components/Messages.vue';
 import Form from './components/Form.vue';
+import User from './components/UserComponent.vue';
+import ExampleComponent from './components/ChatComponent.vue';
+import router from './router';
+import Example from './components/ExampleComponent.vue';
 
+Vue.component('chat-component', ExampleComponent);
+Vue.component('user-component', User);
 Vue.component('dw-messages', Messages);
 Vue.component('dw-form', Form);
+// import VueRouter from 'vue-router';
+// Vue.use(VueRouter);
+
+// define routes for users
+// const routes = [{
+//     path: '/xample',
+//     name: 'contoh',
+//     component: Example,
+// }, ];
+
+// const router = new VueRouter({ routes });
+
 const app = new Vue({
     el: '#app',
-
+    router,
     data: {
         //VARIABLE UNTUK MENAMPUNG DATA PESAN
         messages: [],
     },
+    // router,
 
     //KETIKA FILE INI DI-LOAD ATAU AKAN DI-RENDER OLEH BROWSER
     created() {

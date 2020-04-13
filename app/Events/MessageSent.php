@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 use App\User;
-use App\Message;
+use App\Grub_message;
 
 class MessageSent implements ShouldBroadcast
 {
@@ -26,7 +26,7 @@ class MessageSent implements ShouldBroadcast
      * @return void
      */
     //CLASS INI MEMINTA DATA BERUPA USER DAN MESSAGE YANG AKAN DIBROADCAST
-    public function __construct(User $user, Message $message)
+    public function __construct(User $user, Grub_message $message)
     {
         $this->user = $user;
         $this->message = $message;

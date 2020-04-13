@@ -135,7 +135,12 @@
                         </li>
 
                         <li>
-                            <a href="map-google.html" class="waves-effect"><i class="fa fa-columns m-r-10" aria-hidden="true"></i>Laporan</a>
+                        <a href="{{route('chatting')}}" class="waves-effect"><i class="fa fa-wechat  m-r-10" aria-hidden="true"></i>Chatting</a>
+                        </li>
+                        <li>
+                            <router-link to="/xample" class="waves-effect">
+                                xample
+                            </router-link>
                         </li>
 
                         <li>
@@ -208,6 +213,7 @@
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
+</div>
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -234,14 +240,14 @@
     <!-- Flot Charts JavaScript -->
     <script src="assets/plugins/flot/jquery.flot.js"></script>
     <script src="assets/plugins/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-    <script src="js/flot-data.js"></script>
+    {{-- <script src="js/flot-data.js"></script> --}}
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    </div>
+    
 </body>
 
 </html>
