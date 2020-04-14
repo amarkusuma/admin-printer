@@ -137,11 +137,11 @@
                         <li>
                         <a href="{{route('chatting')}}" class="waves-effect"><i class="fa fa-wechat  m-r-10" aria-hidden="true"></i>Chatting</a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <router-link to="/xample" class="waves-effect">
                                 xample
                             </router-link>
-                        </li>
+                        </li> --}}
 
                         <li>
                         <a href="{{route('role-user')}}" class="waves-effect"><i class="fa fa-expeditedssl m-r-10" aria-hidden="true"></i>Role User</a>
@@ -189,6 +189,7 @@
                 <div class="row">
                     
                     @yield('content')
+                    <router-view></router-view>
                     
                 </div>
                 <!-- Row -->

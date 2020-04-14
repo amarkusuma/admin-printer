@@ -23,10 +23,11 @@
         <dw-form v-on:sent="addMessage" :user="{{ Auth::user() }}"></dw-form>
 
     </div>
-    <user-component></user-component>
+    {{-- <user-component></user-component> --}}
+    <example></example>
 
     {{-- <router-link to="/xample">contoh</router-link> --}}
 
-    <router-view></router-view>
+  
 
 @endsection

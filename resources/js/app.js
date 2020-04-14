@@ -15,11 +15,20 @@ import User from './components/UserComponent.vue';
 import ExampleComponent from './components/ChatComponent.vue';
 import router from './router';
 import Example from './components/ExampleComponent.vue';
+import MessageComponent from './components/MessageComponent';
+
+import Vuetify from 'vuetify';
+
+Vue.use(Vuetify);
+
+import 'vuetify/dist/vuetify.min.css';
 
 Vue.component('chat-component', ExampleComponent);
 Vue.component('user-component', User);
 Vue.component('dw-messages', Messages);
 Vue.component('dw-form', Form);
+Vue.component('example', Example);
+Vue.component('message-component', MessageComponent);
 // import VueRouter from 'vue-router';
 // Vue.use(VueRouter);
 
@@ -35,6 +44,7 @@ Vue.component('dw-form', Form);
 const app = new Vue({
     el: '#app',
     router,
+    vuetify: new Vuetify(),
     data: {
         //VARIABLE UNTUK MENAMPUNG DATA PESAN
         messages: [],
