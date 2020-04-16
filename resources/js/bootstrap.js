@@ -47,5 +47,11 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    encrypted: true,
+    encrypted: false,
+    // authEndpoint: 'http://localhost/admin/public/broadcasting/auth',
+    // auth: {
+    //     headers: {
+    //         Authorization: 'Bearer ' + YourTokenLogin,
+    //     },
+    // },
 });

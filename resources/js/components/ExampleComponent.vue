@@ -1,12 +1,36 @@
 <template>
-  <div class="col-md-3">
-    <div class="card-header">
-      <h5 class="card-title">Users online</h5>
-    </div>
-    <div class="card-body user-online">
+  <div class="row">
+    <div class="col-sm-9">
       <div class="card">
         <div class="card-block">
-          <!-- <div v-for="(user, index) in users" :key="user + '-' + index">
+          <div class="table-responsive m-t-40">
+            <div v-if="component == 'message-grub'">
+              <component v-bind:is="component" :messages="messages"></component>
+            </div>
+
+            <div>
+              <span v-for="friend in friends" :key="friend.id" v-if="friend.session">
+                <component
+                  v-bind:is="component"
+                  v-if="friend.session.open"
+                  @close="close(friend)"
+                  :friend="friend"
+                  :messages="messages"
+                ></component>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card-header">
+        <h5 class="card-title">Users online</h5>
+      </div>
+      <div class="card-body user-online">
+        <div class="card">
+          <div class="card-block">
+            <!-- <div v-for="(user, index) in users" :key="user + '-' + index">
              <div class="icon">
         
               <button
@@ -24,83 +48,56 @@
               <a class="text-muted" href="#">
                 <small>{{ user.name }}</small>
               </a>
-          </div>-->
-          <ul class="list-group">
-            <li
-              class="list-group-item"
-              @click.prevent="openChat(friend)"
-              :key="friend.id"
-              v-for="friend in friends"
-            >
-              <a href>
-                {{friend.name}}
-                <span
-                  class="text-danger"
-                  v-if="friend.session && (friend.session.unreadCount > 0)"
-                >{{friend.session.unreadCount}}</span>
-              </a>
-              <i
-                class="fa fa-circle float-right text-success"
-                v-if="friend.online"
-                aria-hidden="true"
-              ></i>
-            </li>
-          </ul>
+            </div>-->
+            <ul class="list-group">
+              <li
+                class="list-group-item"
+                @click.prevent="openChat(friend)"
+                :key="friend.id"
+                v-for="friend in friends"
+              >
+                <a href v-on:click="coba()">
+                  {{friend.name}}
+                  <span
+                    class="text-danger"
+                    v-if="friend.session && (friend.session.unreadCount > 0)"
+                  >{{friend.session.unreadCount}}</span>
+                </a>
+                <i
+                  class="fa fa-circle float-right text-success"
+                  v-if="friend.online"
+                  aria-hidden="true"
+                ></i>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
+      <!-- <span v-for="friend in friends" :key="friend.id" v-if="friend.session">
+        <component
+          v-bind:is="component"
+          v-if="friend.session.open"
+          @close="close(friend)"
+          :friend="friend"
+          :messages="messages"
+        ></component>
+      </span>-->
     </div>
-    <span v-for="friend in friends" :key="friend.id" v-if="friend.session">
-      <message-component v-if="friend.session.open" @close="close(friend)" :friend="friend"></message-component>
-    </span>
   </div>
 </template>
 
 <script>
-// import Event from "../event.js";
-
-// export default {
-//   data() {
-//     return {
-//       users: []
-//     };
-//   },
-
-//   mounted() {
-//     Event.$on("users.here", users => {
-//       this.users = users;
-//     })
-//       .$on("users.joined", user => {
-//         this.users.unshift(user);
-//       })
-//       .$on("users.left", user => {
-//         this.users = this.users.filter(u => {
-//           return u.id != user.id;
-//         });
-//       });
-//   }
-// };
-// import axios from "axios";
-// export default {
-//   data() {
-//     return {
-//       users: []
-//     };
-//   },
-//   mounted() {
-//     axios
-//       .get("/online")
-//       .then(res => {
-//         this.users = res.data;
-//       })
-//       .catch(e => {
-//         this.errors.push(e);
-//       });
-//   }
-// };
 import MessageComponent from "./MessageComponent";
+import Message from "./Messages";
 export default {
+  components: {
+    "message-private": MessageComponent,
+    "message-grub": Message
+  },
+  props: ["messages"],
   data() {
     return {
+      component: "message-grub",
       friends: []
     };
   },
@@ -136,6 +133,13 @@ export default {
       Echo.private(`Chats.${friend.session.id}`).listen("PrivateChatEvent", e =>
         friend.session.open ? "" : friend.session.unreadCount++
       );
+    },
+    coba() {
+      if (this.component == "message-grub") {
+        this.component = "message-private";
+      } else {
+        this.component == "message-grub";
+      }
     }
   },
   created() {
@@ -167,8 +171,7 @@ export default {
           user.id == friend.id ? (friend.online = false) : ""
         );
       });
-  },
-  components: { MessageComponent }
+  }
 };
 </script>
 

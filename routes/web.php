@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/online', 'ChatController@online');
     Route::get('messages', 'ChatController@getMessages');
     Route::post('messages', 'ChatController@broadcastMessage');
+    Route::get('/user-chat', 'ChatController@user');
 });
 
 

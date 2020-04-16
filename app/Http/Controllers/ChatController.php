@@ -97,4 +97,10 @@ class ChatController extends Controller
         $session->chats->count() == 0 ? $session->deleteMessages() : '';
         return response('cleared', 200);
     }
+
+    public function user()
+    {
+        $data = Auth::user();
+        return $data;
+    }
 }
