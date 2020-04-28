@@ -18,14 +18,14 @@ class Session extends Model
         return $this->hasMany(Message::class);
     }
 
-    public function sendMessage($session_id)
-    {
-        return $this->messages()->create([
-            'session_id' => $session_id,
-            // 'type' => 0,
-            'user_id' => auth()->id()
-        ]);
-    }
+    // public function sendMessage($session_id)
+    // {
+    //     return $this->messages()->create([
+    //         'session_id' => $session_id,
+    //         // 'type' => 0,
+    //         'user_id' => auth()->id()
+    //     ]);
+    // }
 
 
     public function deleteChats()

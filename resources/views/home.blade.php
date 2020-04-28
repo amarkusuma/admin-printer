@@ -22,9 +22,9 @@
 </div>
 @endsection --}}
 
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
 <chat-component></chat-component>
-@endsection
+@endsection --}}
 

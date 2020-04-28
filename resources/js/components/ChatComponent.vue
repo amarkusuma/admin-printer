@@ -73,7 +73,7 @@ export default {
       });
     },
     listenForEverySession(friend) {
-      Echo.private(`Chats.${friend.session.id}`).listen("PrivateChatEvent", e =>
+      Echo.private(`chat.${friend.session.id}`).listen("PrivateChatEvent", e =>
         friend.session.open ? "" : friend.session.unreadCount++
       );
     }
@@ -81,13 +81,13 @@ export default {
   created() {
     this.getFriends();
 
-    Echo.channel("Chats").listen("SessionEvent", e => {
+    Echo.channel("chat").listen("SessionEvent", e => {
       let friend = this.friends.find(friend => friend.id == e.session_by);
       friend.session = e.session;
       this.listenForEverySession(friend);
     });
 
-    Echo.join(`Chats`)
+    Echo.join(`chat`)
       .here(users => {
         this.friends.forEach(friend => {
           users.forEach(user => {

@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -55,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/online', 'ChatController@online');
     Route::get('messages', 'ChatController@getMessages');
     Route::post('messages', 'ChatController@broadcastMessage');
+    Route::get('/user-chat', 'ChatController@user');
 });
 
 
@@ -64,7 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 // ]);
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::post('getFriends', 'HomeController@getFriends');
+    Route::post('getFriends', 'ChatController@getFriends');
     Route::post('/session/create', 'SessionController@create');
     Route::post('/session/{session}/chats', 'ChatController@chats');
     Route::post('/session/{session}/read', 'ChatController@read');

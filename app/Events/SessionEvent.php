@@ -2,11 +2,17 @@
 
 namespace App\Events;
 
+
 use Illuminate\Broadcasting\Channel;
+
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+
+use Illuminate\Broadcasting\PresenceChannel;
+
 
 class SessionEvent implements ShouldBroadcast
 {
@@ -33,6 +39,6 @@ class SessionEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('Chats');
+        return new Channel('chat');
     }
 }

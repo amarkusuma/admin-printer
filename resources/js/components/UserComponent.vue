@@ -34,14 +34,12 @@
 
 <script>
 // import Event from "../event.js";
-
 // export default {
 //   data() {
 //     return {
 //       users: []
 //     };
 //   },
-
 //   mounted() {
 //     Event.$on("users.here", users => {
 //       this.users = users;

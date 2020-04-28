@@ -14,11 +14,17 @@ use Cache;
 use App\Http\Resources\ChatResource;
 use App\Events\PrivateChatEvent;
 use Carbon\Carbon;
-use App\Events\MsgReadEvent;
-
+use App\Events\MsgReadEvent; 
+use App\Http\Resources\UserResource;
+    
 
 class ChatController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return view('chat.index');
@@ -96,5 +102,17 @@ class ChatController extends Controller
         $session->deleteChats();
         $session->chats->count() == 0 ? $session->deleteMessages() : '';
         return response('cleared', 200);
+    }
+
+
+    public function user()
+    {
+        $data = Auth::user();
+        return $data;
+    }
+
+    public function getFriends()
+    {
+        return UserResource::collection(User::where('id', '!=', auth()->id())->get());
     }
 }

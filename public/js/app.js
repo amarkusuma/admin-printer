@@ -1988,7 +1988,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     listenForEverySession: function listenForEverySession(friend) {
-      Echo["private"]("Chats.".concat(friend.session.id)).listen("PrivateChatEvent", function (e) {
+      Echo["private"]("chat.".concat(friend.session.id)).listen("PrivateChatEvent", function (e) {
         return friend.session.open ? "" : friend.session.unreadCount++;
       });
     }
@@ -1997,7 +1997,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this2 = this;
 
     this.getFriends();
-    Echo.channel("Chats").listen("SessionEvent", function (e) {
+    Echo.channel("chat").listen("SessionEvent", function (e) {
       var friend = _this2.friends.find(function (friend) {
         return friend.id == e.session_by;
       });
@@ -2006,7 +2006,7 @@ __webpack_require__.r(__webpack_exports__);
 
       _this2.listenForEverySession(friend);
     });
-    Echo.join("Chats").here(function (users) {
+    Echo.join("chat").here(function (users) {
       _this2.friends.forEach(function (friend) {
         users.forEach(function (user) {
           if (user.id == friend.id) {
@@ -2041,6 +2041,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MessageComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MessageComponent */ "./resources/js/components/MessageComponent.vue");
+/* harmony import */ var _Messages__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Messages */ "./resources/js/components/Messages.vue");
 //
 //
 //
@@ -2098,49 +2099,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-// import Event from "../event.js";
-// export default {
-//   data() {
-//     return {
-//       users: []
-//     };
-//   },
-//   mounted() {
-//     Event.$on("users.here", users => {
-//       this.users = users;
-//     })
-//       .$on("users.joined", user => {
-//         this.users.unshift(user);
-//       })
-//       .$on("users.left", user => {
-//         this.users = this.users.filter(u => {
-//           return u.id != user.id;
-//         });
-//       });
-//   }
-// };
-// import axios from "axios";
-// export default {
-//   data() {
-//     return {
-//       users: []
-//     };
-//   },
-//   mounted() {
-//     axios
-//       .get("/online")
-//       .then(res => {
-//         this.users = res.data;
-//       })
-//       .catch(e => {
-//         this.errors.push(e);
-//       });
-//   }
-// };
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    "message-private": _MessageComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
+    "message-grub": _Messages__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: ["messages"],
   data: function data() {
     return {
+      buttonIcons: true,
+      component: "message-grub",
       friends: []
     };
   },
@@ -2178,16 +2170,23 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     listenForEverySession: function listenForEverySession(friend) {
-      Echo["private"]("Chats.".concat(friend.session.id)).listen("PrivateChatEvent", function (e) {
+      Echo["private"]("chat.".concat(friend.session.id)).listen("PrivateChatEvent", function (e) {
         return friend.session.open ? "" : friend.session.unreadCount++;
       });
+    },
+    Formchat: function Formchat() {
+      if (this.component == "message-grub") {
+        this.component = "message-private";
+      } else {
+        this.component == "message-grub";
+      }
     }
   },
   created: function created() {
     var _this2 = this;
 
     this.getFriends();
-    Echo.channel("Chats").listen("SessionEvent", function (e) {
+    Echo.channel("chat").listen("SessionEvent", function (e) {
       var friend = _this2.friends.find(function (friend) {
         return friend.id == e.session_by;
       });
@@ -2196,7 +2195,7 @@ __webpack_require__.r(__webpack_exports__);
 
       _this2.listenForEverySession(friend);
     });
-    Echo.join("Chats").here(function (users) {
+    Echo.join("chat").here(function (users) {
       _this2.friends.forEach(function (friend) {
         users.forEach(function (user) {
           if (user.id == friend.id) {
@@ -2213,9 +2212,6 @@ __webpack_require__.r(__webpack_exports__);
         return user.id == friend.id ? friend.online = false : "";
       });
     });
-  },
-  components: {
-    MessageComponent: _MessageComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 
@@ -2350,6 +2346,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["friend", "user"],
   // props: ["user"],
@@ -2371,8 +2381,7 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     message: function message(value) {
       if (value) {
-        Echo["private"]("Chats.".concat(this.friend.session.id)).whisper("typing", {
-          name: auth.name
+        Echo["private"]("chat.".concat(this.friend.session.id)).whisper("typing", {// name: auth.name
         });
       }
     }
@@ -2442,7 +2451,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.read();
     this.getAllMessages();
-    Echo["private"]("Chats.".concat(this.friend.session.id)).listen("PrivateChatEvent", function (e) {
+    Echo["private"]("chat.".concat(this.friend.session.id)).listen("PrivateChatEvent", function (e) {
       _this6.friend.session.open ? _this6.read() : "";
 
       _this6.chats.push({
@@ -2451,15 +2460,15 @@ __webpack_require__.r(__webpack_exports__);
         sent_at: "Just Now"
       });
     });
-    Echo["private"]("Chats.".concat(this.friend.session.id)).listen("MsgReadEvent", function (e) {
+    Echo["private"]("chat.".concat(this.friend.session.id)).listen("MsgReadEvent", function (e) {
       return _this6.chats.forEach(function (chat) {
         return chat.id == e.chat.id ? chat.read_at = e.chat.read_at : "";
       });
     });
-    Echo["private"]("Chats.".concat(this.friend.session.id)).listen("BlockEvent", function (e) {
+    Echo["private"]("chat.".concat(this.friend.session.id)).listen("BlockEvent", function (e) {
       return _this6.session.block = e.blocked;
     });
-    Echo["private"]("Chats.".concat(this.friend.session.id)).listenForWhisper("typing", function (e) {
+    Echo["private"]("chat.".concat(this.friend.session.id)).listenForWhisper("typing", function (e) {
       _this6.isTyping = true;
       setTimeout(function () {
         _this6.isTyping = false;
@@ -2479,6 +2488,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Form */ "./resources/js/components/Form.vue");
 //
 //
 //
@@ -2506,11 +2516,69 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   //INGAT TAG :message="" DI CODE SEBELUMNYA? CODE TERSEBUT DISEBUT SEBAGIA PROPS
   //GUNANYA UNTUK MENGIRIMKAN DATA KE COMPONENT YANG DITUJU
   //DALAM HAL INI KITA MENGIRIMKAN DATA DENGAN PROPS MESSAGE KE COMPONENT MESSAGES.VUE
-  props: ["messages"]
+  components: {
+    "form-input": _Form__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  // props: ["messages"],
+  data: function data() {
+    return {
+      messages: [],
+      user: []
+    };
+  },
+  //KETIKA FILE INI DI-LOAD ATAU AKAN DI-RENDER OLEH BROWSER
+  created: function created() {
+    var _this = this;
+
+    //MAKA AKAN MENJALANKAN FUNGSI fetchMessage()
+    this.fetchMessages(); //DAN MENGGUNAKAN LARAVEL ECHO, KITA AKSES PRIVATE CHANNEL BERNAMA CHAT YANG NNTINYA AKAN DIBUAT
+    //KEMUDIAN EVENTNYA KITA LISTEN ATAU PANTAU JIKA ADA DATA YANG DIKIRIM
+
+    Echo["private"]("chat").listen("MessageSent", function (e) {
+      //DATA YANG DITERIMA AKAN DITAMBAHKAN KE DALAM VARIABLE MESSAGES SEBELUMNYA
+      _this.messages.push({
+        message: e.message.message,
+        user: e.user
+      });
+    });
+    axios.get("/user-chat").then(function (res) {
+      _this.user = res.data;
+    })["catch"](function (e) {
+      _this.errors.push(e);
+    });
+  },
+  methods: {
+    //FUNGSI FETCH MESSAGE UNTUK MEMINTA DATA DARI DATABASE TERKAIT PESAN YANG SUDAH LAMPAU
+    fetchMessages: function fetchMessages() {
+      var _this2 = this;
+
+      //MENGGUNAKAN AXIOS UNTUK MELAKUKAN AJAX REQUEST
+      axios.get("/messages").then(function (response) {
+        //SETIAP DATA YANG DITERIMA AKAN DITAMBAHKAN KE VARIABLE MESSAGES
+        _this2.messages = response.data;
+      });
+    },
+    //INGAT EMIT YANG DIKIRIM? AKAN DI-HANDLE DISINI
+    //CARA TRACE-NYA GIMANA? PERHATIKAN FILE CHAT.BLADE.PHP, TERDAPAT ATTRIBUTE v-on:sent="addMessage" DI DALAM TAG DW-FORM
+    //YANG BERARTI KETIKA EMIT BERNAMA SENT DITERIMA, MAKA AKAN MEMICU FUNGIS addMessage
+    addMessage: function addMessage(message) {
+      //PESAN YANG DITERIMA AKAN DITAMBAHKAN KE VARIABLE MESSAGE
+      this.messages.push(message); //KEMUDIAN AKAN DISIMPAN KE DATABASE SEBAGAI LOG
+
+      axios.post("/messages", message).then(function (response) {
+        console.log(response.data);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -9127,7 +9195,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.users {\n  background-color: #fff;\n  border-radius: 3px;\n}\n.btn.btn-success.btn-circle.btn-sm {\n  width: 17px;\n  height: 17px;\n  text-align: center;\n  padding: 0px 0;\n}\n.btn.btn-default.btn-circle.btn-sm {\n  width: 17px;\n  height: 17px;\n  text-align: center;\n  padding: 0px 0;\n}\n.icon {\n  padding-bottom: 5px;\n}\n.card-body.user-online {\n  background-color: rgb(203, 230, 240);\n  max-height: 230px;\n  overflow: auto;\n}\n", ""]);
+exports.push([module.i, "\n.users {\n  background-color: #fff;\n  border-radius: 3px;\n}\n.btn.btn-success.btn-circle.btn-sm {\n  width: 17px;\n  height: 17px;\n  text-align: center;\n  padding: 0px 0;\n}\n.float-right.text-success.fa.fa-circle{\n  padding-top:7px ;\n}\n.icon {\n  padding-bottom: 5px;\n}\n.card-body.user-online {\n  background-color: rgb(203, 230, 240);\n  max-height: 230px;\n  overflow: auto;\n}\n.btn-circle {\n  width: 30px;\n  height: 30px;\n  text-align: center;\n  padding: 6px 0;\n  font-size: 12px;\n  line-height: 1.428571429;\n  border-radius: 15px;\n  background-color:green\n}\n.offline-circle{\n  background-color:#272c33\n}\n", ""]);
 
 // exports
 
@@ -9146,7 +9214,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.chat-box {\n  height: 400px;\n}\n.card-body {\n  overflow-y: scroll;\n}\n", ""]);
+exports.push([module.i, "\n.chat-box {\n  height: 400px;\n}\n.card-body {\n  overflow-y: scroll;\n}\n.card-text.private-chat{\n  border: 2px solid #dedede;\n  background-color: #f1f1f1;\n  border-radius: 5px;\n  padding: 10px;\n  margin: 10px 0;\n}\n.bubbleWrapper {\n\tpadding: 10px 10px;\n\tdisplay: flex;\n\tjustify-content: flex-end;\n\tflex-direction: column;\n\talign-self: flex-end;\n  color: #fff;\n}\n.inlineContainer {\n  display: inline-flex;\n}\n.inlineContainer.own {\n  flex-direction: row-reverse;\n}\n.inlineIcon {\n  width:20px;\n  -o-object-fit: contain;\n     object-fit: contain;\n}\n.ownBubble {\n\tmin-width: 60px;\n\tmax-width: 700px;\n\tpadding: 14px 18px;\n  margin: 6px 8px;\n\tbackground-color: #5b5377;\n\tborder-radius: 16px 16px 0 16px;\n\tborder: 1px solid #443f56;\n}\n.otherBubble {\n\tmin-width: 60px;\n\tmax-width: 700px;\n\tpadding: 14px 18px;\n  margin: 6px 8px;\n\tbackground-color: #ddddd2;\n\tborder-radius: 16px 16px 16px 0;\n\tborder: 1px solid #54788e;\n}\n.own {\n\talign-self: flex-end;\n  font-size: 12px;\n}\n.other {\n\talign-self: flex-start;\n  font-size: 12px;\n}\nspan.own,\nspan.other{\n  font-size: 10px;\n  color: grey;\n}\n.scroll {\n  max-height: 370px;\n  overflow-y: auto;\n}\n", ""]);
 
 // exports
 
@@ -48789,84 +48857,135 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "col-md-3" },
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body user-online" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-block" }, [
-            _c(
-              "ul",
-              { staticClass: "list-group" },
-              _vm._l(_vm.friends, function(friend) {
-                return _c(
-                  "li",
-                  {
-                    key: friend.id,
-                    staticClass: "list-group-item",
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.openChat(friend)
-                      }
-                    }
-                  },
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-sm-9" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-block" }, [
+          _c("div", { staticClass: "table-responsive m-t-40" }, [
+            _vm.component == "message-grub"
+              ? _c(
+                  "div",
                   [
-                    _c("a", { attrs: { href: "" } }, [
-                      _vm._v(
-                        "\n              " +
-                          _vm._s(friend.name) +
-                          "\n              "
-                      ),
-                      friend.session && friend.session.unreadCount > 0
-                        ? _c("span", { staticClass: "text-danger" }, [
-                            _vm._v(_vm._s(friend.session.unreadCount))
-                          ])
-                        : _vm._e()
-                    ]),
-                    _vm._v(" "),
-                    friend.online
-                      ? _c("i", {
-                          staticClass: "fa fa-circle float-right text-success",
-                          attrs: { "aria-hidden": "true" }
-                        })
-                      : _vm._e()
-                  ]
+                    _c(_vm.component, {
+                      tag: "component",
+                      attrs: { messages: _vm.messages }
+                    })
+                  ],
+                  1
                 )
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "div",
+              _vm._l(_vm.friends, function(friend) {
+                return friend.session
+                  ? _c(
+                      "span",
+                      { key: friend.id },
+                      [
+                        friend.session.open
+                          ? _c(_vm.component, {
+                              tag: "component",
+                              attrs: { friend: friend, messages: _vm.messages },
+                              on: {
+                                close: function($event) {
+                                  return _vm.close(friend)
+                                }
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  : _vm._e()
               }),
               0
             )
           ])
         ])
-      ]),
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-3" }, [
+      _vm._m(0),
       _vm._v(" "),
-      _vm._l(_vm.friends, function(friend) {
-        return friend.session
-          ? _c(
-              "span",
-              { key: friend.id },
-              [
-                friend.session.open
-                  ? _c("message-component", {
-                      attrs: { friend: friend },
+      _c("div", { staticClass: "card-body user-online" }, [
+        _c("div", { staticClass: "card" }, [
+          _c(
+            "div",
+            { staticClass: "card-block" },
+            _vm._l(_vm.friends, function(friend) {
+              return _c(
+                "div",
+                {
+                  key: friend.id,
+                  staticClass: "icon",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.openChat(friend)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "text-muted",
+                      attrs: { href: "" },
                       on: {
-                        close: function($event) {
-                          return _vm.close(friend)
+                        click: function($event) {
+                          return _vm.Formchat()
                         }
                       }
-                    })
-                  : _vm._e()
-              ],
-              1
-            )
-          : _vm._e()
-      })
-    ],
-    2
-  )
+                    },
+                    [
+                      friend.online
+                        ? _c(
+                            "button",
+                            {
+                              class: {
+                                "btn btn-success btn-circle": _vm.buttonIcons
+                              },
+                              attrs: { type: "button" }
+                            },
+                            [_c("i", { staticClass: "fa fa-user" })]
+                          )
+                        : _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-default btn-circle offline-circle",
+                              attrs: { type: "button" }
+                            },
+                            [_c("i", { staticClass: "fa fa-user" })]
+                          ),
+                      _vm._v(" "),
+                      _c("small", [_vm._v(" " + _vm._s(friend.name))]),
+                      _vm._v(" "),
+                      friend.session && friend.session.unreadCount > 0
+                        ? _c("span", { staticClass: "text-danger" }, [
+                            _vm._v(_vm._s(friend.session.unreadCount))
+                          ])
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  friend.online
+                    ? _c("i", {
+                        staticClass: "float-right text-success fa fa-circle ",
+                        attrs: { "aria-hidden": "true" }
+                      })
+                    : _vm._e()
+                ]
+              )
+            }),
+            0
+          )
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -48874,7 +48993,10 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("h5", { staticClass: "card-title" }, [_vm._v("Users online")])
+      _c("h5", { staticClass: "card-title" }, [
+        _vm._v("Users  "),
+        _c("i", { staticClass: "fa fa-users" })
+      ])
     ])
   }
 ]
@@ -48966,10 +49088,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card card-default chat-box" }, [
+  return _c("div", { staticClass: "table stylish-table" }, [
     _c("div", { staticClass: "card-header" }, [
       _c("b", { class: { "text-danger": _vm.session.block } }, [
-        _vm._v("\n      " + _vm._s(_vm.friend.name) + "\n      "),
+        _vm._v("\n        " + _vm._s(_vm.friend.name) + "\n        "),
         _vm.isTyping ? _c("span", [_vm._v("is Typing . . .")]) : _vm._e(),
         _vm._v(" "),
         _vm.session.block ? _c("span", [_vm._v("(Blocked)")]) : _vm._e()
@@ -49059,30 +49181,81 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      {
-        directives: [{ name: "chat-scroll", rawName: "v-chat-scroll" }],
-        staticClass: "card-body"
-      },
+      { staticClass: "scroll" },
       _vm._l(_vm.chats, function(chat) {
-        return _c(
-          "p",
-          {
-            key: chat.id,
-            staticClass: "card-text",
-            class: {
-              "text-right": chat.type == 0,
-              "text-success": chat.read_at != null
-            }
-          },
-          [
-            _vm._v("\n      " + _vm._s(chat.message) + "\n      "),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", { staticStyle: { "font-size": "8px" } }, [
-              _vm._v(_vm._s(chat.read_at))
-            ])
-          ]
-        )
+        return _c("div", { key: chat.id, staticClass: "bubbleWrapper " }, [
+          chat.type == 0
+            ? _c("div", { staticClass: "inlineContainer" }, [
+                _c("img", {
+                  staticClass: "inlineIcon",
+                  attrs: {
+                    src:
+                      "https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "otherBubble other",
+                    class: { "text-dark": chat.type == 0 }
+                  },
+                  [
+                    _vm._v(
+                      "\n              " + _vm._s(chat.message) + "\n          "
+                    )
+                  ]
+                )
+              ])
+            : _c("div", { staticClass: "inlineContainer own" }, [
+                _c("img", {
+                  staticClass: "inlineIcon",
+                  attrs: {
+                    src:
+                      "https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "ownBubble own",
+                    class: { "text-dark": chat.type == 0 }
+                  },
+                  [
+                    _vm._v(
+                      "\n              " + _vm._s(chat.message) + "\n          "
+                    )
+                  ]
+                )
+              ]),
+          _vm._v(" "),
+          chat.type == 0
+            ? _c(
+                "span",
+                {
+                  staticClass: "other",
+                  class: { "text-success": chat.read_at != null }
+                },
+                [
+                  chat.read_at
+                    ? _c("div", [
+                        _vm._v(
+                          _vm._s("read at") + " " + _vm._s(chat.read_at) + " "
+                        )
+                      ])
+                    : _vm._e()
+                ]
+              )
+            : _c(
+                "span",
+                {
+                  staticClass: "own",
+                  class: { "text-success": chat.read_at != null }
+                },
+                [_vm._v(_vm._s(chat.read_at))]
+              )
+        ])
       }),
       0
     ),
@@ -49090,7 +49263,6 @@ var render = function() {
     _c(
       "form",
       {
-        staticClass: "card-footer",
         on: {
           submit: function($event) {
             $event.preventDefault()
@@ -49109,7 +49281,7 @@ var render = function() {
                 expression: "message"
               }
             ],
-            staticClass: "form-control",
+            staticClass: "form-control input-sm",
             attrs: { type: "text", placeholder: "Write your message here" },
             domProps: { value: _vm.message },
             on: {
@@ -49171,40 +49343,51 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("table", { staticClass: "table stylish-table" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("tbody", [
-      _c(
-        "div",
-        { staticClass: "scroll" },
-        _vm._l(_vm.messages, function(message, index) {
-          return _c("tr", { key: message + "-" + index }, [
-            _vm._m(1, true),
-            _vm._v(" "),
-            _c("td", { staticStyle: { width: "580px" } }, [
-              _c("h6", { staticClass: "name-user" }, [
-                _vm._v(_vm._s(message.user.name))
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c(
-                  "small",
-                  { staticClass: "text-muted", attrs: { id: "message" } },
-                  [
-                    _c("a", { attrs: { href: "#" } }, [
-                      _vm._v(_vm._s(message.message))
-                    ])
-                  ]
-                )
+  return _c(
+    "div",
+    [
+      _c("table", { staticClass: "table stylish-table" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("tbody", [
+          _c(
+            "div",
+            { staticClass: "scroll" },
+            _vm._l(_vm.messages, function(message, index) {
+              return _c("tr", { key: message + "-" + index }, [
+                _vm._m(1, true),
+                _vm._v(" "),
+                _c("td", { staticStyle: { width: "680px" } }, [
+                  _c("h6", { staticClass: "name-user" }, [
+                    _vm._v(_vm._s(message.user.name))
+                  ]),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c(
+                      "small",
+                      { staticClass: "text-muted", attrs: { id: "message" } },
+                      [
+                        _c("a", { attrs: { href: "#" } }, [
+                          _vm._v(_vm._s(message.message))
+                        ])
+                      ]
+                    )
+                  ])
+                ])
               ])
-            ])
-          ])
-        }),
-        0
-      )
-    ])
-  ])
+            }),
+            0
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("form-input", {
+        attrs: { user: _vm.user },
+        on: { sent: _vm.addMessage }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -106001,47 +106184,42 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   data: {
     //VARIABLE UNTUK MENAMPUNG DATA PESAN
     messages: []
-  },
-  // router,
-  //KETIKA FILE INI DI-LOAD ATAU AKAN DI-RENDER OLEH BROWSER
-  created: function created() {
-    var _this = this;
+  } // //KETIKA FILE INI DI-LOAD ATAU AKAN DI-RENDER OLEH BROWSER
+  // created() {
+  //     //MAKA AKAN MENJALANKAN FUNGSI fetchMessage()
+  //     this.fetchMessages();
+  //     //DAN MENGGUNAKAN LARAVEL ECHO, KITA AKSES PRIVATE CHANNEL BERNAMA CHAT YANG NNTINYA AKAN DIBUAT
+  //     //KEMUDIAN EVENTNYA KITA LISTEN ATAU PANTAU JIKA ADA DATA YANG DIKIRIM
+  //     Echo.private('chat').listen('MessageSent', e => {
+  //         //DATA YANG DITERIMA AKAN DITAMBAHKAN KE DALAM VARIABLE MESSAGES SEBELUMNYA
+  //         this.messages.push({
+  //             message: e.message.message,
+  //             user: e.user,
+  //         });
+  //     });
+  // },
+  // methods: {
+  //     //FUNGSI FETCH MESSAGE UNTUK MEMINTA DATA DARI DATABASE TERKAIT PESAN YANG SUDAH LAMPAU
+  //     fetchMessages() {
+  //         //MENGGUNAKAN AXIOS UNTUK MELAKUKAN AJAX REQUEST
+  //         axios.get('/messages').then(response => {
+  //             //SETIAP DATA YANG DITERIMA AKAN DITAMBAHKAN KE VARIABLE MESSAGES
+  //             this.messages = response.data;
+  //         });
+  //     },
+  //     //INGAT EMIT YANG DIKIRIM? AKAN DI-HANDLE DISINI
+  //     //CARA TRACE-NYA GIMANA? PERHATIKAN FILE CHAT.BLADE.PHP, TERDAPAT ATTRIBUTE v-on:sent="addMessage" DI DALAM TAG DW-FORM
+  //     //YANG BERARTI KETIKA EMIT BERNAMA SENT DITERIMA, MAKA AKAN MEMICU FUNGIS addMessage
+  //     addMessage(message) {
+  //         //PESAN YANG DITERIMA AKAN DITAMBAHKAN KE VARIABLE MESSAGE
+  //         this.messages.push(message);
+  //         //KEMUDIAN AKAN DISIMPAN KE DATABASE SEBAGAI LOG
+  //         axios.post('/messages', message).then(response => {
+  //             console.log(response.data);
+  //         });
+  //     },
+  // },
 
-    //MAKA AKAN MENJALANKAN FUNGSI fetchMessage()
-    this.fetchMessages(); //DAN MENGGUNAKAN LARAVEL ECHO, KITA AKSES PRIVATE CHANNEL BERNAMA CHAT YANG NNTINYA AKAN DIBUAT
-    //KEMUDIAN EVENTNYA KITA LISTEN ATAU PANTAU JIKA ADA DATA YANG DIKIRIM
-
-    Echo["private"]('chat').listen('MessageSent', function (e) {
-      //DATA YANG DITERIMA AKAN DITAMBAHKAN KE DALAM VARIABLE MESSAGES SEBELUMNYA
-      _this.messages.push({
-        message: e.message.message,
-        user: e.user
-      });
-    });
-  },
-  methods: {
-    //FUNGSI FETCH MESSAGE UNTUK MEMINTA DATA DARI DATABASE TERKAIT PESAN YANG SUDAH LAMPAU
-    fetchMessages: function fetchMessages() {
-      var _this2 = this;
-
-      //MENGGUNAKAN AXIOS UNTUK MELAKUKAN AJAX REQUEST
-      axios.get('/messages').then(function (response) {
-        //SETIAP DATA YANG DITERIMA AKAN DITAMBAHKAN KE VARIABLE MESSAGES
-        _this2.messages = response.data;
-      });
-    },
-    //INGAT EMIT YANG DIKIRIM? AKAN DI-HANDLE DISINI
-    //CARA TRACE-NYA GIMANA? PERHATIKAN FILE CHAT.BLADE.PHP, TERDAPAT ATTRIBUTE v-on:sent="addMessage" DI DALAM TAG DW-FORM
-    //YANG BERARTI KETIKA EMIT BERNAMA SENT DITERIMA, MAKA AKAN MEMICU FUNGIS addMessage
-    addMessage: function addMessage(message) {
-      //PESAN YANG DITERIMA AKAN DITAMBAHKAN KE VARIABLE MESSAGE
-      this.messages.push(message); //KEMUDIAN AKAN DISIMPAN KE DATABASE SEBAGAI LOG
-
-      axios.post('/messages', message).then(function (response) {
-        console.log(response.data);
-      });
-    }
-  }
 });
 
 /***/ }),
