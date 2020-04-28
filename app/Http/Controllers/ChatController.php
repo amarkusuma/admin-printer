@@ -104,15 +104,21 @@ class ChatController extends Controller
         return response('cleared', 200);
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
     public function user()
     {
         $data = Auth::user();
         return $data;
     }
+<<<<<<< HEAD
 
     public function getFriends()
     {
         return UserResource::collection(User::where('id', '!=', auth()->id())->get());
     }
+=======
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
 }

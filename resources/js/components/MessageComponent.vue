@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
 
   <div class="table stylish-table">
   
@@ -9,11 +10,23 @@
           <span v-if="session.block">(Blocked)</span>
         </b>
 
+=======
+  <div class="card">
+    <div class="card-block">
+      <div class="card-header">
+        <b :class="{'text-danger':session.block}">
+          {{friend.name}}
+          <span v-if="isTyping">is Typing . . .</span>
+          <span v-if="session.block">(Blocked)</span>
+        </b>
+
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
         <!-- Close Button -->
         <a href @click.prevent="close">
           <i class="fa fa-times float-right" aria-hidden="true"></i>
         </a>
         <!-- Close Button Ends -->
+<<<<<<< HEAD
 
         <!-- Options -->
         <div class="dropdown float-right mr-4">
@@ -30,11 +43,30 @@
             >UnBlock</a>
             <a class="dropdown-item" href="#" @click.prevent="block" v-if="!session.block">Block</a>
 
+=======
+
+        <!-- Options -->
+        <div class="dropdown float-right mr-4">
+          <a href data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a
+              class="dropdown-item"
+              href="#"
+              v-if="session.block && can"
+              @click.prevent="unblock"
+            >UnBlock</a>
+            <a class="dropdown-item" href="#" @click.prevent="block" v-if="!session.block">Block</a>
+
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
             <a class="dropdown-item" href="#" @click.prevent="clear">Clear Chat</a>
           </div>
         </div>
         <!-- Options Ends -->
       </div>
+<<<<<<< HEAD
        <!--v-chat-scroll -->
     
 
@@ -63,13 +95,38 @@
           <input
             type="text"
             class="form-control input-sm"
+=======
+
+      <div class="card-body" v-chat-scroll>
+        <p
+          class="card-text"
+          :class="{'text-right':chat.type == 0,'text-success':chat.read_at!=null}"
+          v-for="chat in chats"
+          :key="chat.id"
+        >
+          {{chat.message}}
+          <br />
+          <span style="font-size:8px">{{chat.read_at}}</span>
+        </p>
+      </div>
+      <form class="card-footer" @submit.prevent="send">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
             placeholder="Write your message here"
             v-model="message"
           />
         </div>
       </form>
+<<<<<<< HEAD
  
     </div>
+=======
+    </div>
+  </div>
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
 </template>
 
 <script>

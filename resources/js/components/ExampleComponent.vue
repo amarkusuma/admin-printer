@@ -7,6 +7,42 @@
             <div v-if="component == 'message-grub'">
               <component v-bind:is="component" :messages="messages"></component>
             </div>
+<<<<<<< HEAD
+=======
+
+            <div>
+              <span v-for="friend in friends" :key="friend.id" v-if="friend.session">
+                <component
+                  v-bind:is="component"
+                  v-if="friend.session.open"
+                  @close="close(friend)"
+                  :friend="friend"
+                  :messages="messages"
+                ></component>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card-header">
+        <h5 class="card-title">Users online</h5>
+      </div>
+      <div class="card-body user-online">
+        <div class="card">
+          <div class="card-block">
+            <!-- <div v-for="(user, index) in users" :key="user + '-' + index">
+             <div class="icon">
+        
+              <button
+                type="button"
+                class="btn btn-success btn-circle btn-sm"
+                v-if="user.isOnline == true"
+              >
+                <i class="fa fa-headphones"></i>
+              </button>
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
 
             <div>
               <span v-for="friend in friends" :key="friend.id" v-if="friend.session">
@@ -57,9 +93,37 @@
                   aria-hidden="true"
                 ></i>
 
+<<<<<<< HEAD
                
               </div>
             
+=======
+              <a class="text-muted" href="#">
+                <small>{{ user.name }}</small>
+              </a>
+            </div>-->
+            <ul class="list-group">
+              <li
+                class="list-group-item"
+                @click.prevent="openChat(friend)"
+                :key="friend.id"
+                v-for="friend in friends"
+              >
+                <a href v-on:click="coba()">
+                  {{friend.name}}
+                  <span
+                    class="text-danger"
+                    v-if="friend.session && (friend.session.unreadCount > 0)"
+                  >{{friend.session.unreadCount}}</span>
+                </a>
+                <i
+                  class="fa fa-circle float-right text-success"
+                  v-if="friend.online"
+                  aria-hidden="true"
+                ></i>
+              </li>
+            </ul>
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
           </div>
         </div>
       </div>
@@ -68,8 +132,12 @@
           v-bind:is="component"
           v-if="friend.session.open"
           @close="close(friend)"
+<<<<<<< HEAD
           :friend="friend"amar12345
 
+=======
+          :friend="friend"
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
           :messages="messages"
         ></component>
       </span>-->
@@ -88,7 +156,10 @@ export default {
   props: ["messages"],
   data() {
     return {
+<<<<<<< HEAD
       buttonIcons:true,
+=======
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
       component: "message-grub",
       friends: []
     };
@@ -126,7 +197,11 @@ export default {
         friend.session.open ? "" : friend.session.unreadCount++
       );
     },
+<<<<<<< HEAD
     Formchat() {
+=======
+    coba() {
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
       if (this.component == "message-grub") {
         this.component = "message-private";
       } else {
