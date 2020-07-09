@@ -56,8 +56,59 @@ const app = new Vue({
     data: {
         //VARIABLE UNTUK MENAMPUNG DATA PESAN
         messages: [],
+<<<<<<< HEAD
+=======
+    },
+<<<<<<< HEAD
+
+>>>>>>> 14019f05d6ab53588dd7fbf976718bce3070c0df
 
     },
 
 
+<<<<<<< HEAD
+=======
+=======
+    router,
+
+    // //KETIKA FILE INI DI-LOAD ATAU AKAN DI-RENDER OLEH BROWSER
+    // created() {
+    //     //MAKA AKAN MENJALANKAN FUNGSI fetchMessage()
+    //     this.fetchMessages();
+
+    //     //DAN MENGGUNAKAN LARAVEL ECHO, KITA AKSES PRIVATE CHANNEL BERNAMA CHAT YANG NNTINYA AKAN DIBUAT
+    //     //KEMUDIAN EVENTNYA KITA LISTEN ATAU PANTAU JIKA ADA DATA YANG DIKIRIM
+    //     Echo.private('chat').listen('MessageSent', e => {
+    //         //DATA YANG DITERIMA AKAN DITAMBAHKAN KE DALAM VARIABLE MESSAGES SEBELUMNYA
+    //         this.messages.push({
+    //             message: e.message.message,
+    //             user: e.user,
+    //         });
+    //     });
+    // },
+    // methods: {
+    //     //FUNGSI FETCH MESSAGE UNTUK MEMINTA DATA DARI DATABASE TERKAIT PESAN YANG SUDAH LAMPAU
+    //     fetchMessages() {
+    //         //MENGGUNAKAN AXIOS UNTUK MELAKUKAN AJAX REQUEST
+    //         axios.get('/messages').then(response => {
+    //             //SETIAP DATA YANG DITERIMA AKAN DITAMBAHKAN KE VARIABLE MESSAGES
+    //             this.messages = response.data;
+    //         });
+    //     },
+
+    //     //INGAT EMIT YANG DIKIRIM? AKAN DI-HANDLE DISINI
+    //     //CARA TRACE-NYA GIMANA? PERHATIKAN FILE CHAT.BLADE.PHP, TERDAPAT ATTRIBUTE v-on:sent="addMessage" DI DALAM TAG DW-FORM
+    //     //YANG BERARTI KETIKA EMIT BERNAMA SENT DITERIMA, MAKA AKAN MEMICU FUNGIS addMessage
+    //     addMessage(message) {
+    //         //PESAN YANG DITERIMA AKAN DITAMBAHKAN KE VARIABLE MESSAGE
+    //         this.messages.push(message);
+
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
+    //         //KEMUDIAN AKAN DISIMPAN KE DATABASE SEBAGAI LOG
+    //         axios.post('/messages', message).then(response => {
+    //             console.log(response.data);
+    //         });
+    //     },
+    // },
+>>>>>>> 14019f05d6ab53588dd7fbf976718bce3070c0df
 });

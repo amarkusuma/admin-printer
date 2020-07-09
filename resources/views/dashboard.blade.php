@@ -184,7 +184,7 @@
                 <div class="row">
                     
                     @yield('content')
-                    <router-view></router-view>
+                    {{-- <router-view></router-view> --}}
                     
                 </div>
                 <!-- Row -->

@@ -15,10 +15,17 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
+<<<<<<< HEAD
 // Broadcast::channel('chat', function ($user) {
 //     return Auth::check(); //YANG DI-RETURN ADALAH HANYA TRUE / FALSE
 // });
 // Broadcast::channel('chat', function ($user) {
+=======
+Broadcast::channel('chat', function ($user) {
+    return Auth::check(); //YANG DI-RETURN ADALAH HANYA TRUE / FALSE
+});
+// Broadcast::channel('Chat', function ($user) {
+>>>>>>> 1f5914a252bc386a724dddcbee8858e6935bbef4
 //     return Auth::check(); //YANG DI-RETURN ADALAH HANYA TRUE / FALSE
 // });
 
