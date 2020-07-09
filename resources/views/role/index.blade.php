@@ -1,5 +1,3 @@
-
-​
 @extends('dashboard')
 <!DOCTYPE html>
 
@@ -67,12 +65,12 @@
             </div>
          </div>
 
-
+{{-- 
          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
          <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
          @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 
-         @include('sweetalert::alert')
+         @include('sweetalert::alert') --}}
 
 
 
@@ -108,30 +106,30 @@
   //        });
   //  });
 
-  //  $('body').on('click', '.show', function () {
-  //        var product_id = $(this).attr("data-id");
-  //        // confirm("Are You sure want to delete !");
-  //        // $(this).closest('tr').remove();
-  //        $.ajaxSetup({
-  //              headers: {
-  //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  //              }
-  //           });
-  //        $.ajax({
-  //              type: "POST",
-  //              url: "printer.show/"+ product_id,
-  //              data: "id="+product_id,
+   $('body').on('click', '.show', function () {
+         var role_id = $(this).attr("data-id");
+         // confirm("Are You sure want to delete !");
+         // $(this).closest('tr').remove();
+         $.ajaxSetup({
+               headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               }
+            });
+         $.ajax({
+               type: "POST",
+               url: "show_role/"+ role_id,
+               data: "id="+role_id,
                
-  //              success: function (data) {
-  //                 // console.log('Succes:', data);
-  //                 $('.container').html(data);	
-  //                 // window.location = "printer.show/"+product_id;
-  //              },
-  //              error: function (data) {
-  //                 console.log('Error:', data);
-  //              }
-  //        });
-  //  });
+               success: function (data) {
+                  // console.log('Succes:', data);
+                  $('.container').html(data);	
+                  // window.location = "printer.show/"+product_id;
+               },
+               error: function (data) {
+                  console.log('Error:', data);
+               }
+         });
+   });
    $('body').on('click', '.edit', function () {
          var role_id = $(this).attr("data-id");
          // confirm("Are You sure want to delete !");

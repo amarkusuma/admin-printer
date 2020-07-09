@@ -38,3 +38,23 @@ Broadcast::channel('chat.{session}', function ($user,$session) {
     
     return $user ;
 });
+
+Broadcast::channel(`posting`, function () {
+    return true;
+});
+
+Broadcast::channel(`comentar`, function () {
+    return true ;
+});
+Broadcast::channel(`subcomentar`, function () {
+    return true ;
+});
+Broadcast::channel('deleteComment', function ($user) {
+    return $user;
+});
+Broadcast::channel('deletePostingan', function ($user) {
+    return $user;
+});
+Broadcast::channel('deleteSubcomment', function ($user) {
+    return $user;
+});

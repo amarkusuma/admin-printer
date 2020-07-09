@@ -38,14 +38,10 @@
         
               <div class="page-wrapper">
                 <div class="row">
-                    <!-- Column -->
-                   
-  
-                    <!-- Column -->
-                    <!-- Column -->
+
                     <div class="col-lg-8 col-xlg-9 col-md-8">
                         <div class="card-block">
-                            <h4 class="card-title" style="color: #111; font-family: 'Open Sans Condensed', sans-serif; font-size: 24px; font-weight: 700;  margin: 0 0 0; padding: 20px 30px; text-align: center; text-transform: uppercase;">Menambahkan Role Ke User</h4>
+                            <h4 class="card-title" style="color: #111; font-family: 'Open Sans Condensed', sans-serif; font-size: 24px; font-weight: 700;  margin: 0 0 0; padding: 20px 30px; text-align: center; text-transform: uppercase;">Edit Role  User</h4>
                            </div>
                         <div class="card">
                             <div class="card-block">
@@ -74,8 +70,8 @@
                                     <div class="form-group">
                                         <label class="col-sm-12">Role User</label>
                                         <div class="col-sm-12">
-                                            <select class="form-control form-control-line"  name="roles[]">
-                                                <option value="">-- Pilih Role --</option>
+                                            <select class="form-control form-control-line"  name="roles">
+                                                <option value="" >-- Pilih Role --</option>
                                                 {{-- 
                                                 @foreach($roles as $rows)
                                                   @foreach($userRole as $row)

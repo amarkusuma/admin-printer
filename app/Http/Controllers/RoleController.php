@@ -42,7 +42,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
 
         Alert::success('Success ', 'Berhasil Membuat permission Role ');
-        return redirect()->route('role-index');
+        return redirect()->route('role-user');
     }
 
 
@@ -68,11 +68,8 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            // 'name' => 'required',
             'permission' => 'required',
         ]);
-
-
         $role = Role::find($id);
         // $role->name = $request->input('name');
         // $role->save();
@@ -81,5 +78,9 @@ class RoleController extends Controller
 
         Alert::success('Success ', 'Permission role Berhasil di Update');
         return redirect()->route('role-user');
+    }
+
+    public function showRole($id){
+        return view('role.show');
     }
 }

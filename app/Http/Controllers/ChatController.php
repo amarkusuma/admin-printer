@@ -115,4 +115,13 @@ class ChatController extends Controller
     {
         return UserResource::collection(User::where('id', '!=', auth()->id())->get());
     }
+
+
+    public function coba($id){
+        // $user = User::whereIn('id', [ $id])->first();
+        $user = DB::table('users')
+        ->leftJoin('sessions', 'sessions.user1_id', '=', $id)
+        ->get();
+        return $user;
+    }
 }

@@ -20,6 +20,7 @@
     "jquery": "^3.2",
     "laravel-mix": "^5.0.4",
     "lodash": "^4.17.13",
+    "material-design-icons-iconfont": "^5.0.1",
     "popper.js": "^1.12",
     "resolve-url-loader": "^2.3.1",
     "sass": "^1.26.3",
@@ -30,8 +31,13 @@
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^19.0.0",
+    "@ckeditor/ckeditor5-vue": "^1.0.1",
+    "emoji-mart-vue": "^2.6.6",
+    "emoji-vue": "^0.2.4",
     "laravel-echo": "^1.6.1",
     "pusher-js": "^5.1.1",
+    "vue-ckeditor5": "^0.5.0",
     "vue-router": "^3.1.6",
     "vuetify": "^2.2.21"
   }

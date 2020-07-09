@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','image',
     ];
 
     /**
@@ -49,4 +49,10 @@ class User extends Authenticatable
     {
         return Cache::has('user-is-online-' . $this->id);
     }
+
+    public function postingan()
+    {
+        return $this->hasMany(Postingan::class);
+    }
+
 }

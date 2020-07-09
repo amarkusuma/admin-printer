@@ -15,7 +15,7 @@ class CeateChatTable extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('message');
+            $table->unsignedInteger('message_id');
             $table->unsignedInteger('session_id');
             $table->unsignedInteger('user_id');
             $table->dateTime('read_at')->nullable();

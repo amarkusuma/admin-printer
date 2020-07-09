@@ -59,7 +59,6 @@ class PrinterController extends Controller
         //     'image_printer' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         // ]);
 
-
         $printer = new Printers();
         $printer->name = $request->name_printer;
         $printer->image = $request->image_printer;
@@ -77,8 +76,6 @@ class PrinterController extends Controller
 
         //dd($printer);
         $printer->save();
-
-
 
         return redirect()->route('input-printer')
             ->with('success', 'data telah tersimpan ');

@@ -18,3 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // Route::delete('printer.delete/{id}', 'PrinterController@destroy')->name('printer.delete');
+
+ Route::post('/editProfile/{id}', 'ProfileController@editProfile');

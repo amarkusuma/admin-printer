@@ -1,6 +1,20 @@
 <template>
-    <div class="input-group mb-3">
+
+    <div class="floating-div">
+
+            <picker v-if="emoStatus" set="emojione" @select="onInput" title="Pilih  emoji…" />
+       
+    <div class="input-group ">
         <!-- INPUTAN INI AKAN KETRIGGER JIKA TOMBOL ENTER DITEKAN -->
+        
+        <span class="input-group-btn">
+            <!-- ATAU JIKA TOMBOL SEND DI KLIK -->
+            <v-btn @click="toggleEmo" class="btn btn-default btn-sm">
+            
+            <i class="fa fa-smile-o" style="font-size:20px"></i>
+            </v-btn>
+        </span> 
+              
         <input
             type="text"
             name="message"
@@ -19,10 +33,14 @@
                 Send
             </button>
         </span>
+         
     </div>
+     </div>
 </template>
 
 <script>
+import { Picker } from 'emoji-mart-vue';
+
 export default {
     //COMPONENT INI JUGA MEMINTA DATA USER YANG AKAN MENGIRIMKAN PESAN
     //DARI CODE SEBELUMNYA KITA JUGA MENGIRIMKAN PROPS BERUPA DATA USER YANG SEDANG LOGIN
@@ -30,8 +48,13 @@ export default {
     data() {
         return {
             //VALUE DEFAULT DARI INPUTAN KOSONG
-            message: ""
+            message: "",
+            emoStatus: false ,
         };
+    },
+
+    components:{
+          Picker ,
     },
 
     methods: {
@@ -46,7 +69,22 @@ export default {
 
             //INPUTAN UNTUK MENGIRIM PESAN DIKOSONGKAN LAGI
             this.message = "";
-        }
+        },
+        toggleEmo(){
+                    this.emoStatus =! this.emoStatus ;
+                },  
+
+        onInput(e){
+            if(!e){
+            return false;
+            }
+            if(!this.message){
+            this.message=e.native;
+            }else{
+            this.message=this.message + e.native;
+            }
+            this.emoStatus=false;
+        },
     }
 };
 </script>

@@ -58,12 +58,23 @@
         <span v-else class="own" :class="{'text-success':chat.read_at!=null}">{{chat.read_at}}</span>
     </div>
      </div>
+
+     <picker v-if="emoStatus" set="emojione" @select="onInput" title="Pilih  emoji…" />
+     
       <form  @submit.prevent="send">
-        <div class="form-group">
+        <div class="input-group">
+
+         <span class="input-group-btn">
+            <!-- button Icon-->
+            <v-btn @click="toggleEmo" class="btn btn-default btn-sm">
+            <i class="fa fa-smile-o" style="font-size:20px"></i>
+            </v-btn>
+        </span> 
+
           <input
             type="text"
             class="form-control input-sm"
-            placeholder="Write your message here"
+            placeholder="Tulis Pesan kamu disini"
             v-model="message"
           />
         </div>
@@ -73,6 +84,7 @@
 </template>
 
 <script>
+import { Picker } from 'emoji-mart-vue';
 export default {
   props: ["friend", "user"],
   // props: ["user"],
@@ -80,8 +92,13 @@ export default {
     return {
       chats: [],
       message: null,
-      isTyping: false
+      isTyping: false,
+      emoStatus:false,
     };
+  },
+
+  components:{
+       Picker,
   },
   computed: {
     session() {
@@ -148,7 +165,22 @@ export default {
     },
     read() {
       axios.post(`/session/${this.friend.session.id}/read`);
-    }
+    },
+     toggleEmo(){
+                    this.emoStatus =! this.emoStatus ;
+                },  
+
+        onInput(e){
+            if(!e){
+            return false;
+            }
+            if(!this.message){
+            this.message=e.native;
+            }else{
+            this.message=this.message + e.native;
+            }
+            this.emoStatus=false;
+        },
   },
   created() {
     this.read();

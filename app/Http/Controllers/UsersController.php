@@ -15,54 +15,33 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UsersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
+
     public function index()
     {
         return view('users.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('users.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function user_role($id)
     {
         $user = User::find($id);
@@ -72,37 +51,24 @@ class UsersController extends Controller
         return view('users.edit-user', compact('user', 'roles', 'userRole'))->render();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function user_role_update(Request $request, $id)
     {
-        $this->validate($request, [
-            'roles' => 'required'
-        ]);
 
-        $user = User::find($id);
-        DB::table('model_has_roles')->where('model_id', $id)->delete();
-        $user->assignRole($request->input('roles'));
+       $user = User::find($id);
+       DB::table('model_has_roles')->where('model_id', $id)->delete();
+       $user->assignRole($request->input('roles'));
 
-
+       if (!empty($request->roles) ) {
         Alert::success('Success ', 'User Role Berhasil di Update');
+       }
         return redirect()->route('user');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
+        $user = User::find($id)->delete(); 
     }
 
     public function DataUsers()

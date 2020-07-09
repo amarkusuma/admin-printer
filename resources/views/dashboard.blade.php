@@ -25,7 +25,12 @@
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
-    <div id="app">
+    
+    {{-- <div class="preload">
+        <img src="http://i.stack.imgur.com/MnyxU.gif">
+    </div> --}}
+
+ <div id="app">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -95,12 +100,17 @@
                         <div class="user-profile nav-item">
                             <li class="nav-item dropdown">
                                 <a data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle text-muted waves-effect waves-dark dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="assets/images/users/1.jpg" alt="user" class="profile-pic m-r-5" /> 
+                                    <img src="assets/images/profile/{{ Auth::user()->image }}" alt="user" 
+                                    class="profile-pic m-r-5" 
+                                    style="width:42px ; height: 42px;
+                                    border-radius: 50%;
+                                    border: 0.2em solid #5ed3bf;
+                                    box-shadow: 0 1px 1px #5ed3bf, inset 0 1px 1px #5ed3bf" /> 
                                     {{ Auth::user()->name }}
                                     <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <a class="dropdown-item" href="{{route('profile-user')}}">Profile</a>
                                     <a class="dropdown-item" href="#">Settings</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}">Log Out </a>
                                 </div>
@@ -111,12 +121,7 @@
                 </div>
             </nav>
         </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
+
         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar">
@@ -124,14 +129,14 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li>
-                            <a href="index.html" class="waves-effect"><i class="fa fa-list-alt m-r-10" aria-hidden="true"></i>Dashboard</a>
+                        <a href="{{route('home')}}" class="waves-effect"><i class="fa fa-list-alt m-r-10" aria-hidden="true"></i>Dashboard</a>
                         </li>
                      
                         <li>
-                            <a href="table-basic.html" class="waves-effect"><i class="fa fa-envelope m-r-10" aria-hidden="true"></i>Pemesanan</a>
+                          <a href="{{route('order')}}" class="waves-effect"><i class="fa fa-shopping-cart m-r-10" aria-hidden="true"></i>Pemesanan</a>
                         </li>
                         <li>
-                        <a href="{{ route('printer') }}" class="waves-effect"><i class="fa fa-print m-r-10" aria-hidden="true"></i>Printer</a>
+                        <a href="{{ route('product') }}" class="waves-effect"><i class="fa fa-print m-r-10" aria-hidden="true"></i>Product</a>
                         </li>
 
                         <li>
@@ -151,7 +156,7 @@
                             <a href="{{route('user')}}" class="waves-effect"><i class="fa fa-users m-r-10" aria-hidden="true"></i>Users</a>
                         </li>
                         <li>
-                            <a href="pages-profile.html" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Profile</a>
+                        <a href="{{route('profile-user')}}" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Profile</a>
                         </li>
                     </ul>
                    
@@ -160,20 +165,11 @@
             </div>
             <!-- End Sidebar scroll-->
         </aside>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
+
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
+
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
+
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
                         {{-- <h3 class="text-themecolor m-b-0 m-t-0">{{Route::currentRouteName()}}</h3> --}}
@@ -184,7 +180,6 @@
                     </div>
                    
                 </div>
-                <!-- ============================================================== -->
                 
                 <div class="row">
                     
@@ -197,24 +192,22 @@
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
             </div>
+          
             <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer text-center">
-                © 2017 Monster Admin by wrappixel.com
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
+
+            <?php if(Route::currentRouteName() !== 'home'){
+                echo '<footer class="footer text-center">
+                © 2017 MT Print by wrappixel.com
+            </footer> ';
+            } ?>
+            
+          
         </div>
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
-</div>
+ </div>
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -252,3 +245,31 @@
 </body>
 
 </html>
+
+<style>
+    /* #main-wrapper {
+    display: none;
+} */
+
+.preload {
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+</style>
+
+<script>
+        $(function() {
+    $(".preloader").fadeOut(2000, function() {
+        $("#main-wrapper").fadeIn(1000);        
+    });
+});
+</script>

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\User;
 
 class ChatResource extends JsonResource
 {
@@ -20,7 +21,8 @@ class ChatResource extends JsonResource
             'id' => $this->id,
             'type' => $this->type,
             'read_at' => $this->read_at_timing($this),
-            'send_at' => $this->created_at->diffForHumans()
+            'send_at' => $this->created_at->diffForHumans(),
+            'user' => $this->detail_user($this->user_id)
         ];
     }
 
@@ -28,5 +30,10 @@ class ChatResource extends JsonResource
     {
         $read_at = $_this->type == 0 ? $_this->read_at : null;
         return $read_at ? $read_at->diffForHumans() : null;
+    }
+
+    public function detail_user($id){
+        $user = User::whereIn('id', [ $id])->first();
+        return $user;
     }
 }
